@@ -23,6 +23,7 @@ public Connection getConnection() {
 	try{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		String url = "jdbc:oracle:thin:" + this.getUser() + "/" + this.getPassword() + "@" + this.getServer() + ":1521:" + this.getDatabase();
+		System.out.println("Successfully connected to database");
 		conn = DriverManager.getConnection(url);
 		if(conn != null) {
 			System.out.println("Successfully connected to database");

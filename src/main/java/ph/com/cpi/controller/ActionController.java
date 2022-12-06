@@ -1,6 +1,10 @@
 package ph.com.cpi.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ph.com.cpi.model.Authenticator;
+import ph.com.cpi.model.DBConnect;
 import ph.com.cpi.model.User;
 import ph.com.cpi.model.personalUser;
 
@@ -18,7 +23,8 @@ public class ActionController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		
 		String ACTION = req.getParameter("action");
 		RequestDispatcher dispatcher = null;
@@ -56,7 +62,48 @@ public class ActionController extends HttpServlet {
 		String result = authenticator.authenticate(username, password);
 		
 		if(result.equals("success")) {
-			dispatcher = req.getRequestDispatcher("pages/personalInformation.jsp");
+			
+			Connection conn = null;
+			String ePoint = null;
+			Statement stmt;
+			ResultSet rs;
+			try {
+				
+				DBConnect db = new DBConnect("training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com", "ORCL", "TRNG", "cpi12345");
+				
+				/*
+				 * conn = db.getConnection(); String sql = "SELECT endpoint " +
+				 * "FROM user_roles_3" +
+				 * "INNER JOIN users_3 ON users_3.role_id=USER_ROLES_3.ROLE_ID" +
+				 * "WHERE USERS_3.USER_ID='"+username+"'"; PreparedStatement stmt =
+				 * conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery();
+				 * 
+				 * if (rs.next()) { System.out.println(rs.getString("endpoint")); ePoint =
+				 * rs.getString("endpoint"); }
+				 * 
+				 * conn.close();
+				 */
+				conn = db.getConnection();
+				stmt = conn.createStatement();    
+				rs = stmt.executeQuery("SELECT endpoint "
+						+ "FROM user_roles_3 "
+						+ "INNER JOIN users_3 ON users_3.role_id=USER_ROLES_3.ROLE_ID "
+						+ "WHERE USERS_3.USER_ID='"+username+"'");
+				while (rs.next()) {
+				ePoint = rs.getString("endpoint");
+				 System.out.println("endpoint = " + ePoint);
+				}
+				rs.close();
+				stmt.close();  
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			System.out.print(ePoint);
+			
+			
+			if(ePoint.equals("Administrator")) {
+			
+			dispatcher = req.getRequestDispatcher("pages/AdminPage.jsp");
 			User user = new User(username, password);
 			req.setAttribute("user", user);
 			
@@ -79,6 +126,82 @@ public class ActionController extends HttpServlet {
 			}
 			
 			req.setAttribute("message", message);
+			} else if(ePoint.equals("Producer")) {
+				
+				dispatcher = req.getRequestDispatcher("pages/ProducerPage.jsp");
+				User user = new User(username, password);
+				req.setAttribute("user", user);
+				
+				if(cookies != null) {
+					for(Cookie cookie: cookies) {
+						if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
+							newUser = false;
+							break;
+						}
+					}
+					
+				}
+				if(newUser) {
+					Cookie returnUserCookie = new Cookie("repeatUser","yes");
+					returnUserCookie.setMaxAge(1000);
+					resp.addCookie(returnUserCookie);
+					message = "Welcome new user " + user.getUsername() + "!";
+				} else {
+					message = "Welcome back user " + user.getUsername() + "!";
+				}
+				
+				req.setAttribute("message", message);
+				} else if(ePoint.equals("Order Taker")) {
+					
+					dispatcher = req.getRequestDispatcher("pages/OrderTakerPage.jsp");
+					User user = new User(username, password);
+					req.setAttribute("user", user);
+					
+					if(cookies != null) {
+						for(Cookie cookie: cookies) {
+							if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
+								newUser = false;
+								break;
+							}
+						}
+						
+					}
+					if(newUser) {
+						Cookie returnUserCookie = new Cookie("repeatUser","yes");
+						returnUserCookie.setMaxAge(1000);
+						resp.addCookie(returnUserCookie);
+						message = "Welcome new user " + user.getUsername() + "!";
+					} else {
+						message = "Welcome back user " + user.getUsername() + "!";
+					}
+					
+					req.setAttribute("message", message);
+					} else if(ePoint.equals("Auditor")) {
+						
+						dispatcher = req.getRequestDispatcher("pages/AuditorPage.jsp");
+						User user = new User(username, password);
+						req.setAttribute("user", user);
+						
+						if(cookies != null) {
+							for(Cookie cookie: cookies) {
+								if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
+									newUser = false;
+									break;
+								}
+							}
+							
+						}
+						if(newUser) {
+							Cookie returnUserCookie = new Cookie("repeatUser","yes");
+							returnUserCookie.setMaxAge(1000);
+							resp.addCookie(returnUserCookie);
+							message = "Welcome new user " + user.getUsername() + "!";
+						} else {
+							message = "Welcome back user " + user.getUsername() + "!";
+						}
+						
+						req.setAttribute("message", message);
+						}
 			
 		} else {
 			dispatcher = req.getRequestDispatcher("pages/error.jsp");
