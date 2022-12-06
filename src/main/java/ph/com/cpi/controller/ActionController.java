@@ -1,6 +1,10 @@
 package ph.com.cpi.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ph.com.cpi.model.Authenticator;
+import ph.com.cpi.model.Product;
 import ph.com.cpi.model.User;
 import ph.com.cpi.model.personalUser;
 
@@ -20,13 +25,51 @@ public class ActionController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		Connection conn = null;
+		ResultSet rs = null;
+		
 		String ACTION = req.getParameter("action");
 		RequestDispatcher dispatcher = null;
 		
 		if (ACTION.equals("logout")) {
 			
 			dispatcher = req.getRequestDispatcher("login.jsp");
+		}
+		
+		else if (ACTION.equals("order")) {
 			
+			try {
+				
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
+				conn = DriverManager.getConnection(url);
+				
+				String query = "SELECT * FROM PRODUCT_3";
+				PreparedStatement stmt = conn.prepareStatement(query);
+				
+				rs = stmt.executeQuery();
+				req.setAttribute("rs", rs);
+				
+				while(rs.next()) {
+					
+					String productID = rs.getString("product_id");
+					String productName = rs.getString("product_name");
+					String productDesc = rs.getString("product_description");
+					String productPic = rs.getString("product_picture");
+					String productStatus = rs.getString("product_description");
+					float price = rs.getFloat("price");
+					
+					dispatcher = req.getRequestDispatcher("pages/Order.jsp");
+					Product product = new Product(productID, productName, productDesc, productPic, productStatus, price);
+					req.setAttribute("product", product);
+				
+				} 
+				
+				
+			} catch (Exception e) {
+				System.out.println("Failed to connect to database!");
+				e.printStackTrace();
+			}
 		}
 		else if (ACTION.equals("info")) {
 			

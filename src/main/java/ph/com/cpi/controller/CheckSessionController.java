@@ -25,7 +25,7 @@ public class CheckSessionController extends HttpServlet{
 				dispatcher.forward(req, resp);
 			} else {
 				req.setAttribute("loginMessage", "Please Login");
-				dispatcher = req.getRequestDispatcher("login.jsp");
+				dispatcher = req.getRequestDispatcher("pages/FrontPage.jsp");
 				dispatcher.forward(req, resp);
 			}
 	}
