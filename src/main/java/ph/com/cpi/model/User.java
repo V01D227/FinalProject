@@ -4,6 +4,14 @@ public class User {
 	
 	private String username;
 	private String password;
+	private String endpoint;
+	
+	public String getEndpoint() {
+		return endpoint;
+	}
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
 	
 	public User(String username, String password) {
 		super();
