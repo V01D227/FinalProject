@@ -25,8 +25,8 @@
 	<label>Pets  (separate by period "." if 2 or more):
 						 </label><br><input type="text"   id="pets"       name="pets"><br><br> -->
 						 
-<!-- 	<input type="submit" id="infoBtn" value="Submit">
-	<br> -->
+	<input type="submit" id="infoBtn" value="Submit">
+	<br>
 	<input type="button" id="logoutBtn" value="Logout">
 
 
