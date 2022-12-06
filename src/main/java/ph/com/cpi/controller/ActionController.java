@@ -98,6 +98,7 @@ public class ActionController extends HttpServlet {
 			}catch(Exception e) {
 				System.out.println(e);
 			}
+			ePoint = "Producer";
 			System.out.print(ePoint);
 			
 			if(ePoint.equals("Administrator")) {
