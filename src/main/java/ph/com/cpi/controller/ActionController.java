@@ -50,6 +50,8 @@ public class ActionController extends HttpServlet {
 		Boolean newUser = true;
 		Cookie[] cookies = req.getCookies();
 		String message ="";
+		
+		
 		Authenticator authenticator = new Authenticator();
 		String result = authenticator.authenticate(username, password);
 		
