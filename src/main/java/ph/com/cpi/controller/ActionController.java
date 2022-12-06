@@ -54,7 +54,7 @@ public class ActionController extends HttpServlet {
 		String result = authenticator.authenticate(username, password);
 		
 		if(result.equals("success")) {
-			dispatcher = req.getRequestDispatcher("personalInformation.jsp");
+			dispatcher = req.getRequestDispatcher("pages/personalInformation.jsp");
 			User user = new User(username, password);
 			req.setAttribute("user", user);
 			
