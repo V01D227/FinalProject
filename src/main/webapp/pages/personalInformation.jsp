@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Personal Info</title>
+<title>Title</title>
 <style>
 	* {
 		text-align: center;
@@ -16,14 +16,14 @@
 <jsp:include page="cookie.jsp"/>
 
 
-	<label>First Name :  </label><br><input type="text"   id="firstname"  name="firstname"><br>
+<!-- 	<label>First Name :  </label><br><input type="text"   id="firstname"  name="firstname"><br>
 	<label>Middle Name : </label><br><input type="text"   id="middlename" name="middlename"><br>
 	<label>Last Name :   </label><br><input type="text"   id="lastname"   name="lastname"><br><br>
 	<label>Age :         </label><br><input type="number" id="age"        name="age"><br><br>
 	<label>Birthday :    </label><br><input type="date"   id="birthday"   name="birthday"><br><br>
 	<label>Salary :      </label><br><input type="text"   id="salary"     name="salary"><br><br>
 	<label>Pets  (separate by period "." if 2 or more):
-						 </label><br><input type="text"   id="pets"       name="pets"><br><br>
+						 </label><br><input type="text"   id="pets"       name="pets"><br><br> -->
 						 
 	<input type="submit" id="infoBtn" value="Submit">
 	<br>
