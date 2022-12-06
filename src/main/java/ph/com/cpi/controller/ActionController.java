@@ -100,38 +100,26 @@ public class ActionController extends HttpServlet {
 			}
 			System.out.print(ePoint);
 			
-			
 			if(ePoint.equals("Administrator")) {
 			
 			dispatcher = req.getRequestDispatcher("pages/AdminPage.jsp");
-			User user = new User(username, password);
-			req.setAttribute("user", user);
 			
-			if(cookies != null) {
-				for(Cookie cookie: cookies) {
-					if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
-						newUser = false;
-						break;
-					}
-				}
-				
-			}
-			if(newUser) {
-				Cookie returnUserCookie = new Cookie("repeatUser","yes");
-				returnUserCookie.setMaxAge(1000);
-				resp.addCookie(returnUserCookie);
-				message = "Welcome new user " + user.getUsername() + "!";
-			} else {
-				message = "Welcome back user " + user.getUsername() + "!";
-			}
-			
-			req.setAttribute("message", message);
 			} else if(ePoint.equals("Producer")) {
 				
 				dispatcher = req.getRequestDispatcher("pages/ProducerPage.jsp");
+		
+			} else if(ePoint.equals("Order Taker")) {
+					
+				dispatcher = req.getRequestDispatcher("pages/OrderTakerPage.jsp");
+										
+			} else if(ePoint.equals("Auditor")) {
+						
+				dispatcher = req.getRequestDispatcher("pages/AuditorPage.jsp");
+				
+			}
+			
 				User user = new User(username, password);
 				req.setAttribute("user", user);
-				
 				if(cookies != null) {
 					for(Cookie cookie: cookies) {
 						if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
@@ -141,6 +129,7 @@ public class ActionController extends HttpServlet {
 					}
 					
 				}
+				
 				if(newUser) {
 					Cookie returnUserCookie = new Cookie("repeatUser","yes");
 					returnUserCookie.setMaxAge(1000);
@@ -151,58 +140,7 @@ public class ActionController extends HttpServlet {
 				}
 				
 				req.setAttribute("message", message);
-				} else if(ePoint.equals("Order Taker")) {
-					
-					dispatcher = req.getRequestDispatcher("pages/OrderTakerPage.jsp");
-					User user = new User(username, password);
-					req.setAttribute("user", user);
-					
-					if(cookies != null) {
-						for(Cookie cookie: cookies) {
-							if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
-								newUser = false;
-								break;
-							}
-						}
 						
-					}
-					if(newUser) {
-						Cookie returnUserCookie = new Cookie("repeatUser","yes");
-						returnUserCookie.setMaxAge(1000);
-						resp.addCookie(returnUserCookie);
-						message = "Welcome new user " + user.getUsername() + "!";
-					} else {
-						message = "Welcome back user " + user.getUsername() + "!";
-					}
-					
-					req.setAttribute("message", message);
-					} else if(ePoint.equals("Auditor")) {
-						
-						dispatcher = req.getRequestDispatcher("pages/AuditorPage.jsp");
-						User user = new User(username, password);
-						req.setAttribute("user", user);
-						
-						if(cookies != null) {
-							for(Cookie cookie: cookies) {
-								if((cookie.getName().equals("repeatUser")) && (cookie.getValue().equals("yes"))) {
-									newUser = false;
-									break;
-								}
-							}
-							
-						}
-						if(newUser) {
-							Cookie returnUserCookie = new Cookie("repeatUser","yes");
-							returnUserCookie.setMaxAge(1000);
-							resp.addCookie(returnUserCookie);
-							message = "Welcome new user " + user.getUsername() + "!";
-						} else {
-							message = "Welcome back user " + user.getUsername() + "!";
-						}
-						
-						req.setAttribute("message", message);
-						}
-			
 		} else {
 			dispatcher = req.getRequestDispatcher("pages/error.jsp");
 		}
