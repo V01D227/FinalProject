@@ -19,4 +19,40 @@
   	<servlet-name>checksessioncontroller</servlet-name>
   	<url-pattern>/checksessioncontroller</url-pattern>
   </servlet-mapping>
+  
+  <servlet>	
+  	<servlet-name>ordercontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.OrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ordercontroller</servlet-name>
+  	<url-pattern>/ordercontroller</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>	
+  	<servlet-name>productcontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.ProductController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>productcontroller</servlet-name>
+  	<url-pattern>/productcontroller</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>	
+  	<servlet-name>userlistcontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.UserListController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>userlistcontroller</servlet-name>
+  	<url-pattern>/userlistcontroller</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>	
+  	<servlet-name>logincontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>logincontroller</servlet-name>
+  	<url-pattern>/logincontroller</url-pattern>
+  </servlet-mapping>
 </web-app>

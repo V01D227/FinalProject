@@ -21,11 +21,11 @@ public class CheckSessionController extends HttpServlet{
 			User user = (User) session.getAttribute("user");
 			if (user != null) {
 				req.setAttribute("user", user);
-				dispatcher = req.getRequestDispatcher("personalInformation.jsp");
+				dispatcher = req.getRequestDispatcher("login.jsp");
 				dispatcher.forward(req, resp);
 			} else {
 				req.setAttribute("loginMessage", "Please Login");
-				dispatcher = req.getRequestDispatcher("pages/FrontPage.jsp");
+				dispatcher = req.getRequestDispatcher("login.jsp");
 				dispatcher.forward(req, resp);
 			}
 	}

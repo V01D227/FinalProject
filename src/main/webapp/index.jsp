@@ -5,11 +5,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Title</title>
+
 <script src= "js/prototype.js"> </script>
+
 </head>
 <div id="mainDiv">
-</div>
-<div id="infoDiv">
 </div>
 
 <script>

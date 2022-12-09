@@ -38,12 +38,12 @@ $("signIn").observe("click",SignInAjax);
 function OrderNowAjax() {
 	try {
 		new Ajax.Request(
-				contextPath + "actioncontroller",
+				contextPath + "productcontroller",
 				{
 					method : "POST",
-					parameters:{
-						action:"order",
-					},
+					//parameters:{
+						//action:"order",
+					//},
 					evalScripts: true,
 					asynchronous: true,
 					onComplete : function(response) {
