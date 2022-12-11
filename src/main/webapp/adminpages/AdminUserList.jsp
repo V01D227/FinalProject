@@ -12,17 +12,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	
+	<script type="text/javascript">
+		var contextPath = '${pageContext.request.contextPath}' + '/';
+	</script>
 	<title>Title</title>
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/dashboardCSS.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/popupCSS.css" />
+	<link rel="stylesheet" type="text/css" href="css/dashboardCSS.css" />
+	<link rel="stylesheet" type="text/css" href="css/popupCSS.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	
-	
-	
+	<script src="js/jquery-2.2.4.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/pop.js"></script>
 </head>
 <style>
 
@@ -42,13 +45,14 @@
   			border: solid;
   			border-width: 1px 0;
   		}
-  		tr:hover {
+  		
+  		.dataRows:hover {
   			color: #D7B19D;
-  			background-color: #402218;
+  			background: #402218;
   		}
   		
         td {
-      		width: 250px;
+      		width: 333px;
             padding: 10px;
             text-align: center;
             
@@ -64,21 +68,23 @@
         	width: 100px;
         	height: 100px;
         }
-        #listTitle {
-        margin: 0px 0px 0px 25px;
+        
+        #addbutton {
+       		margin: 0px 0px 0px 25px;
         }
+        
 </style>
 
 <body class="dbBody" id="dbBody">
 	<div class="dbContainer">
 		<div class="dbSidebar">
-		<ul>
+			<ul>
 				<li>
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-bread-slice"></i></span>
 					<span class="dbMenu">Sweet Satisfaction</span></a>
 				</li>
-				<li id="showUsers">
+				<li id="showUsers" class="dbSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-users"></i></span>
 					<span class="dbMenu">Users</span></a>
@@ -90,7 +96,6 @@
 				</li>
 				<li>
 					<a href="#">
-					
 					<span class="dbSidebarIcon"><i class = "fa fa-th-list"></i></span>
 					<span class="dbMenu">Orders</span></a>
 				</li>
@@ -105,11 +110,9 @@
 					<span class="dbMenu">Reporting</span></a>
 				</li>
 			</ul>
- 			<!-- <input type="submit" id="orderNow" value="Show Products"> <input type="submit" id="orderNow" value="Show Products">  -->
  		</div>
  	<!-- main -->
 		<div class="dbMain">
-		
 			<div class="dbTopbar">
 				<div class="dbToggle">
 		
@@ -118,138 +121,101 @@
 					<h1>Hello ${ep} ${user.username}</h1>
 				</div>
 				<div>
-					<button class="dbEditProfileBtn">Edit Profile</button>
-					<button class="dbLogoutBtn">Log out</button>
+					<button data-modal-target="#modalProfile" class="dbLogoutBtn">Edit Profile</button>
+					<button class="dbLogoutBtn" id="logoutButton">Log out</button>
 				</div>
 			</div>
 			
-			
 			<div class="dbUserListTable">
-			  <h1 id="listTitle">Users</h1>
-				 <table>
+			  <button class="dbLogoutBtn" id="addbutton" data-modal-target="#modalAddUser">Add user</button>
+				 <table id="table">
 						<tr>
 							<th>ID</th>
 							<th>Username</th>
+							<th>Email</th>
 							<th>Role</th>
-							<th>Edit</th>
-							
 						</tr>
 						<%
-							for(UserList u : ul) {
-								%>
-								<tr>
-									<td><%=u.getUserID() %></td>
-									<td><%=u.getUsername() %></td>
-									<td><%=u.getEndpoint() %></td>
-									
-									<td>
-									<button data-modal-target="#modal">Open Modal</button>
-									  <div class="modal" id="modal">
-									    <div class="modal-header">
-									      <div class="title">Example Modal</div>
-									      <button data-close-button class="close-button">&times;</button>
-									    </div>
-									    <div class="modal-body">
-									      Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod alias ut illo doloremque eum ipsum obcaecati distinctio debitis reiciendis quae quia soluta totam doloribus quos nesciunt necessitatibus, consectetur quisquam accusamus ex, dolorum, dicta vel? Nostrum voluptatem totam, molestiae rem at ad autem dolor ex aperiam. Amet assumenda eos architecto, dolor placeat deserunt voluptatibus tenetur sint officiis perferendis atque! Voluptatem maxime eius eum dolorem dolor exercitationem quis iusto totam! Repudiandae nobis nesciunt sequi iure! Eligendi, eius libero. Ex, repellat sapiente!
-									    </div>
-									  </div>
-									  <div id="overlay"></div>
-									</td>
-								</tr>
-								<%
-							}
+						for(UserList u : ul) {
+						%>
+						<tr data-modal-target="#modal" class="dataRows">
+							<td><%=u.getUserID() %></td>
+							<td><%=u.getUsername() %></td>
+							<td><%=u.getEmail() %></td>
+							<td><%=u.getEndpoint() %></td>
+						</tr>
+						<%
+						}
 						%>
 				</table> 
 			</div>
 		</div>	
 	</div>
-<script>
-const openModalButtons = document.querySelectorAll('[data-modal-target]')
-const closeModalButtons = document.querySelectorAll('[data-close-button]')
-const overlay = document.getElementById('overlay')
-
-openModalButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const modal = document.querySelector(button.dataset.modalTarget)
-    openModal(modal)
-  })
-})
-
-overlay.addEventListener('click', () => {
-  const modals = document.querySelectorAll('.modal.active')
-  modals.forEach(modal => {
-    closeModal(modal)
-  })
-})
-
-closeModalButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const modal = button.closest('.modal')
-    closeModal(modal)
-  })
-})
-
-function openModal(modal) {
-  if (modal == null) return
-  modal.classList.add('active')
-  overlay.classList.add('active')
-}
-
-function closeModal(modal) {
-  if (modal == null) return
-  modal.classList.remove('active')
-  overlay.classList.remove('active')
-}
-</script>
-
+<!-------------------------------- POP-UP WINDOW FOR ADD USERS ---------------------------->
+	<div class="modal" id="modalAddUser">
+	    <div class="modal-header">
+	      <div class="title">Add User</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+	    <form>
+	    	Username: <input  class="modal-input" type="text" id="username"><br><br>
+	    	Email:    <input  class="modal-input" type="text" id="email"><br><br>
+	    	Password: <input  class="modal-input" type="text" id="password"><br><br>
+	    	Role:	  <select class="modal-input" id="role">
+			    		  <option>Administrator</option>
+			    		  <option>Producer</option>
+			    		  <option>Order Taker</option>
+			    		  <option>Auditor</option>
+	    			  </select>
+	    	<br>
+	    	<br>
+	    	<input type="button" class="dbLogoutBtn" id="addUserButton" value="Add">
+	    </form>
+	    </div>
+	  </div>
+<!-------------------------------- POP-UP WINDOW FOR EDIT/DELETE USERS ---------------------------->
+	<div class="modal" id="modal">
+	    <div class="modal-header">
+	      <div class="title">Editing user</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+	    	ID: <span id="uid"></span><br><br>
+	    	Username: <input class="modal-input" type="text" id="uname"><br><br>
+	    	Email: <input class="modal-input" type="text" id="emailEdit"><br><br>
+	    	Role: <input class="modal-input" type="text" id="roleEdit"><br><br>
+	    	
+	    	<button class="dbLogoutBtn" value="Update" id="editUserButton" >Update</button>
+	    	<button class="dbLogoutBtn" value="Delete">Delete</button>
+	    
+	    </div>
+	  </div>
+<!-------------------------------- POP-UP WINDOW FOR EDIT PROFILE ---------------------------->
+	 <div class="modal" id="modalProfile">
+	    <div class="modal-header">
+	      <div class="title">Edit Profile</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+			Username: 			 <input class="modal-input" type="text" value="${user.username}"><br><br>
+	    	Email:				 <input class="modal-input" type="text"><br><br>
+	    	New Password:		 <input class="modal-input" type="text"><br><br>
+	    	Old Password:		 <input class="modal-input" type="text" value="${user.password}"><br><br>
+	    	Retype New Password: <input class="modal-input" type="text"><br><br>
+	    	<button class="dbLogoutBtn" value="Update">Update</button>
+	    </div>
+	  </div>
+	 <div id="overlay"></div>
 </body>
 
-<script src= "js/prototype.js">
-
-var contextPath = '${pageContext.request.contextPath}' + '/';
-
-function ShowProductsAjax() {
-	try {
-		new Ajax.Request(
-				contextPath + "productcontroller",
-				{
-					method : "POST",
-					//parameters:{
-						//action:"order",
-					//},
-					evalScripts: true,
-					asynchronous: true,
-					onComplete : function(response) {
-						$("mainDiv").update(response.responseText);	
-					}
-				});
-	} catch (e) {
-		console.log("Error " + e);
-	}
-}
-$("showProducts").observe("click",ShowProductsAjax);
-
-function ShowUsersAjax() {
-	try {
-		new Ajax.Request(
-				contextPath + "userlistcontroller",
-				{
-					method : "POST",
-					//parameters:{
-						//action:"order",
-					//},
-					evalScripts: true,
-					asynchronous: true,
-					onComplete : function(response) {
-						$("mainDiv").update(response.responseText);	
-					}
-				});
-	} catch (e) {
-		console.log("Error " + e);
-	}
-}
-$("showUsers").observe("click",ShowUsersAjax);
-
+<script type="text/javascript">
+$( document ).ready(function() {
+	initAdminProductsPage();
+	initAdminUserlistPage();
+	initAddUser();
+	initEditUser();
+	initLogout();
+});
 </script>
-
 </html>

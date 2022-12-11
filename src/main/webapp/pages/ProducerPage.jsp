@@ -12,8 +12,6 @@
 	}
 </style>
 </head>
-<jsp:include page="header.jsp"/>
-<jsp:include page="cookie.jsp"/>
 
 
 <!-- 	<label>First Name :  </label><br><input type="text"   id="firstname"  name="firstname"><br>
@@ -90,5 +88,4 @@ $("logoutBtn").observe("click",logoutAjax);
 </script>
 
 <br>
-<jsp:include page="footer.jsp"/>
-</html>
+<</html>

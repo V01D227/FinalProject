@@ -2,34 +2,25 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+	var contextPath = '${pageContext.request.contextPath}' + '/';
+</script>
 <head>
+<script src="js/jquery-2.2.4.js"></script>
+<script src="js/main.js"></script>
+<script src="js/pop.js"></script>
+<script src="js/sidebar.js"></script>
 <meta charset="ISO-8859-1">
 <title>Title</title>
-
-<script src= "js/prototype.js"> </script>
-
 </head>
-<div id="mainDiv">
-</div>
+<body>
+	<div id="mainDiv">
+	</div>
+</body>
 
-<script>
-var contextPath = '${pageContext.request.contextPath}' + '/';
-function sampleAjax() {
-	try {
-		new Ajax.Request(
-				contextPath + "checksessioncontroller",
-				{
-					method : "POST",
-					onComplete : function(response) {
-						$("mainDiv").update(response.responseText);
-					}
-				});
-	} catch (e) {
-		console.log("Error " + e);
-	}
-}
-
-sampleAjax();
-	
+<script type="text/javascript">
+$( document ).ready(function() {
+	checkSession();
+});
 </script>
 </html>

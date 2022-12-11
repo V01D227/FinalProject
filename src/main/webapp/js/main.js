@@ -1,0 +1,208 @@
+/************************************************************************* CHECK SESSION **********/
+function checkSession(){
+	$.ajax({
+		url: contextPath + "checksessioncontroller",
+		method: "POST",
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
+}
+
+/************************************************************************* LOGIN **********/
+
+function initLoginPage(){
+	$("#loginButton").click(function(){
+		var username = $('#username').val();
+		var password = $('#password').val();
+		if (username == "" || username == null) {
+			alert('Please Enter Username!')
+		} else if (password == "" || password == null) {
+			alert('Please Enter Password!')
+		} else {
+			login(username, password);
+		}
+	})
+}
+
+function login(username, password){
+	$.ajax({
+		url: contextPath + "logincontroller",
+		method: "POST",
+		data : {
+			username: username,
+			password: password
+		},
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
+}
+
+
+/************************************************************************* LOGOUT **********/
+
+function initLogout(){
+	$("#logoutButton").click(function(){
+		var answer = confirm('Do you want to Logout?');
+		if (answer){
+			logout();
+		} else {
+			e.preventDefault();
+		}
+	})
+}
+
+function logout(){
+	$.ajax({
+		url: contextPath + "logoutcontroller",
+		method: "POST",
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
+}
+
+
+
+/************************************************************************* SHOW PRODUCTS **********/
+function initAdminProductsPage(){
+	$('#showProducts').click(function(){
+		ShowProductsAjax();
+	})
+}
+
+function ShowProductsAjax() {
+	$.ajax({
+		url: contextPath + "productcontroller",
+		method: "POST",
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
+}
+
+/************************************************************************* SHOW USERS **********/
+function initAdminUserlistPage(){
+	$('#showUsers').click(function(){
+		ShowUsersAjax();
+	})
+}
+function ShowUsersAjax() {
+	$.ajax({
+		url: contextPath + "userlistcontroller",
+		method: "POST",
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
+}
+
+/************************************************************************* ADD USER **********/
+function initAddUser(){
+	$("#addUserButton").click(function(){
+		var username = $('#username').val();
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var role = $('#role').val();
+		
+		if (username == "" || username == null) {
+			alert('Please Enter Username!')
+		} else if (email == "" || email == null) {
+			alert('Please Enter Email!')
+		} else if (password == "" || password == null) {
+			alert('Please Enter Password!')
+		} else { 
+			var answer = confirm('Do you want to add ' + username + ' as ' + role + '?');
+			if (answer){
+				AddUserAjax(username, password, email, role)();
+			} else {
+				e.preventDefault();
+			}
+		}
+	})
+}
+
+function AddUserAjax(username, password, email, role) {
+	console.log(username);
+	console.log(password);
+	console.log(email);
+	console.log(role);
+	
+	var roleid;
+	if (role == 'Administrator') {
+		roleid = 101;
+	} else if (role == 'Producer') {
+		roleid = 102;
+	} else if (role == 'Order Taker') {
+		roleid = 103;
+	} else if (role == 'Auditor') {
+		roleid = 104;
+	}
+	console.log(roleid);
+	$.ajax({
+		url: contextPath + "addusercontroller",
+		method: "POST",
+		data : {
+			username: username,
+			password: password,
+			email: email,
+			role: roleid
+		},
+		success: alert('Added Successfully!')
+	});
+}
+
+/************************************************************************* EDIT USER **********/
+function initEditUser(){
+	$("#editUserButton").click(function(){
+		var userid = $('#uid').val();
+		var username = $('#uname').val();
+		var email = $('#emailEdit').val();
+		var role = $('#roleEdit').val();
+		
+		if (username == "" || username == null) {
+			alert('Please Enter a Username!')
+		} else if (role == "" || role == null) {
+			alert('Please Enter a Role!')
+		} else { 
+			var answer = confirm('Do you want to edit user ' + userid + '?');
+			if (answer){
+				EditUserAjax(userid, username, email, role)();
+			} else {
+				e.preventDefault();
+			}
+		}
+	})
+}
+
+function EditUserAjax(userid, username, email, role) {
+	console.log(userid);
+	console.log(username);
+	console.log(email);
+	console.log(role);
+	
+	var roleid;
+	if (role == 'Administrator') {
+		roleid = 101;
+	} else if (role == 'Producer') {
+		roleid = 102;
+	} else if (role == 'Order Taker') {
+		roleid = 103;
+	} else if (role == 'Auditor') {
+		roleid = 104;
+	}
+	console.log(roleid);
+	
+	$.ajax({
+		url: contextPath + "editusercontroller",
+		method: "POST",
+		data : {
+			userid: userid,
+			username: username,
+			email: email,
+			role: roleid
+		},
+		success: alert('Updated User Successfully!')
+	});
+}

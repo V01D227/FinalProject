@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import ph.com.cpi.model.Product;
 import ph.com.cpi.model.User;
+import ph.com.cpi.model.UserList;
 
 public class LoginController extends HttpServlet {
 	
@@ -28,7 +29,6 @@ public class LoginController extends HttpServlet {
 		Connection conn;
 		ResultSet rs;
 		PreparedStatement stmt = null;
-
 		RequestDispatcher dispatcher = null;
 		
 		try {
@@ -54,13 +54,46 @@ public class LoginController extends HttpServlet {
 			
 			if(rs.next()) {
 				
-				
+
 				String ePoint = rs.getString("endpoint");
 				System.out.print(ePoint);
 				
 				switch(ePoint) {
 				
-					case "Administrator": dispatcher = req.getRequestDispatcher("adminpages/AdminPage.jsp");break;
+					case "Administrator":
+						
+						try {
+							String query2 = "SELECT u.user_id, u.role_id, ur.endpoint, u.username, u.password, u.email FROM USERS_3 u, USER_ROLES_3 ur WHERE u.role_id = ur.role_id";
+							ArrayList<UserList> userlist = new ArrayList<UserList>();
+							
+							System.out.println("Connection Successful!"+conn);
+							Statement cstmt = conn.createStatement();
+							rs = cstmt.executeQuery(query2);
+							while(rs.next()) 
+							{
+
+								UserList ulObject = new UserList();
+								ulObject.setUserID(rs.getInt("user_id"));
+								ulObject.setRoleID(rs.getInt("role_id"));
+								ulObject.setEndpoint(rs.getString("endpoint"));
+								ulObject.setUsername(rs.getString("username"));
+								ulObject.setPassword(rs.getString("password"));
+								ulObject.setEmail(rs.getString("email"));
+								userlist.add(ulObject);
+								
+							}
+							
+							dispatcher = req.getRequestDispatcher("adminpages/AdminUserList.jsp");
+							req.setAttribute("userData", userlist);
+							
+							HttpSession session = req.getSession();
+							session.setAttribute("userlist", userlist);
+							
+						} catch (Exception e) {
+							System.out.println("Failed to connect to database!");
+							e.printStackTrace();
+						}
+					 break;
 						
 					case "Producer": dispatcher = req.getRequestDispatcher("pages/ProducerPage.jsp"); break;
 						

@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>FinalProject</display-name>
-  
-  <servlet>	
-  	<servlet-name>actioncontroller</servlet-name>
-  	<servlet-class>ph.com.cpi.controller.ActionController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>actioncontroller</servlet-name>
-  	<url-pattern>/actioncontroller</url-pattern>
-  </servlet-mapping>
-   
+
+<!-- CheckSessionController -->
   <servlet>	
   	<servlet-name>checksessioncontroller</servlet-name>
   	<servlet-class>ph.com.cpi.controller.CheckSessionController</servlet-class>
@@ -20,6 +12,7 @@
   	<url-pattern>/checksessioncontroller</url-pattern>
   </servlet-mapping>
   
+<!-- OrderController -->
   <servlet>	
   	<servlet-name>ordercontroller</servlet-name>
   	<servlet-class>ph.com.cpi.controller.OrderController</servlet-class>
@@ -29,6 +22,7 @@
   	<url-pattern>/ordercontroller</url-pattern>
   </servlet-mapping>
   
+<!-- ProductController -->
   <servlet>	
   	<servlet-name>productcontroller</servlet-name>
   	<servlet-class>ph.com.cpi.controller.ProductController</servlet-class>
@@ -38,6 +32,7 @@
   	<url-pattern>/productcontroller</url-pattern>
   </servlet-mapping>
   
+<!-- UserListController -->
   <servlet>	
   	<servlet-name>userlistcontroller</servlet-name>
   	<servlet-class>ph.com.cpi.controller.UserListController</servlet-class>
@@ -47,6 +42,7 @@
   	<url-pattern>/userlistcontroller</url-pattern>
   </servlet-mapping>
   
+<!-- LoginController -->
   <servlet>	
   	<servlet-name>logincontroller</servlet-name>
   	<servlet-class>ph.com.cpi.controller.LoginController</servlet-class>
@@ -55,4 +51,35 @@
   	<servlet-name>logincontroller</servlet-name>
   	<url-pattern>/logincontroller</url-pattern>
   </servlet-mapping>
+   
+<!-- LogoutController -->
+  <servlet>
+  	<servlet-name>logoutcontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.LogoutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>logoutcontroller</servlet-name>
+  	<url-pattern>/logoutcontroller</url-pattern>
+  </servlet-mapping>
+  
+<!-- AddUserController -->
+  <servlet>	
+  	<servlet-name>addusercontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.AddUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>addusercontroller</servlet-name>
+  	<url-pattern>/addusercontroller</url-pattern>
+  </servlet-mapping>
+ 
+<!-- EdituserController -->
+  <servlet>
+    <servlet-name>editusercontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.EditUserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>editusercontroller</servlet-name>
+  	<url-pattern>/editusercontroller</url-pattern>
+  </servlet-mapping>
+
 </web-app>

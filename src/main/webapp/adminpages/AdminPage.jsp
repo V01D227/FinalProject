@@ -11,12 +11,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		var contextPath = '${pageContext.request.contextPath}' + '/';
+	</script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/dashboardCSS.css" /> 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<script src= "js/prototype.js"></script>
-	<script src= "js/sidebar.js"></script>
+	<script src="js/jquery-2.2.4.js"></script>
+	<script src= "js/main.js"></script>
 <title>Title</title>
 </head>
 
@@ -68,7 +71,7 @@
 				</div>
 				<div>
 					<button class="dbEditProfileBtn">Edit Profile</button>
-					<button class="dbLogoutBtn">Log out</button>
+					<button class="dbLogoutBtn" id="logoutButton">Log out</button>
 				</div>
 			</div>
 			
@@ -81,74 +84,13 @@
 		</div>	
 	</div>
 
-<script>
-		//Toggle Sidebar
-		let dbToggle = document.querySelector('.dbToggle');
-		let dbSidebar = document.querySelector('.dbSidebar');
-		let dbMain = document.querySelector('.dbMain');
-
-		dbToggle.onclick = function() {
-			dbSidebar.classList.toggle('active');
-			dbMain.classList.toggle('active');
-		}
-		//hovering Menus
-		let list = document.querySelectorAll('.db-sidebar li');
-		function activeLink() {
-			list.forEach((item) =>
-			item.classList.remove('hovered'));
-			this.classList.add('hovered');			
-		}
-		list.forEach((item) =>
-		item.addEventListener('mouseover',activeLink));
+<script type="text/javascript">
+$( document ).ready(function() {
+	initAdminProductsPage();
+	initAdminUserlistPage();
+	initLogout();
+});
 </script>
 
 </body>
-
-<script src= "js/prototype.js">
-
-var contextPath = '${pageContext.request.contextPath}' + '/';
-
-function ShowProductsAjax() {
-	try {
-		new Ajax.Request(
-				contextPath + "productcontroller",
-				{
-					method : "POST",
-					//parameters:{
-						//action:"order",
-					//},
-					evalScripts: true,
-					asynchronous: true,
-					onComplete : function(response) {
-						$("mainDiv").update(response.responseText);	
-					}
-				});
-	} catch (e) {
-		console.log("Error " + e);
-	}
-}
-$("showProducts").observe("click",ShowProductsAjax);
-
-function ShowUsersAjax() {
-	try {
-		new Ajax.Request(
-				contextPath + "userlistcontroller",
-				{
-					method : "POST",
-					//parameters:{
-						//action:"order",
-					//},
-					evalScripts: true,
-					asynchronous: true,
-					onComplete : function(response) {
-						$("mainDiv").update(response.responseText);	
-					}
-				});
-	} catch (e) {
-		console.log("Error " + e);
-	}
-}
-$("showUsers").observe("click",ShowUsersAjax);
-</script>
-
 </html>

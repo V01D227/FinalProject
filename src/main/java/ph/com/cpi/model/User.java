@@ -6,17 +6,17 @@ public class User {
 	private String password;
 	private String endpoint;
 	
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+	
 	public String getEndpoint() {
 		return endpoint;
 	}
 	public void setEndpoint(String endpoint) {
 		this.endpoint = endpoint;
-	}
-	
-	public User(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
 	}
 	public String getUsername() {
 		return username;

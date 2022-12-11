@@ -19,6 +19,7 @@ public class CheckSessionController extends HttpServlet{
 			RequestDispatcher dispatcher = null;
 			HttpSession session = req.getSession();
 			User user = (User) session.getAttribute("user");
+			
 			if (user != null) {
 				req.setAttribute("user", user);
 				dispatcher = req.getRequestDispatcher("login.jsp");

@@ -42,9 +42,11 @@
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
 }
-.dbSidebar ul li:hover,
-.dbSidebar ul li.hovered {
+.dbSidebar ul li:hover {
 	background: #D7B19D;
+}
+.dbSelectedSidebar ul li{
+	background: white;
 }
 .dbSidebar ul li:nth-child(1) {
 	margin-bottom: 40px;

@@ -1,4 +1,3 @@
-//Toggle Sidebar
 let dbToggle = document.querySelector('.dbToggle');
 let dbSidebar = document.querySelector('.dbSidebar');
 let dbMain = document.querySelector('.dbMain');

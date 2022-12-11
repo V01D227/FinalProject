@@ -20,7 +20,6 @@ public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
 		
 		Connection conn;
 		ResultSet rs;

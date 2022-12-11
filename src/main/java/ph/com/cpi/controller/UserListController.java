@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ph.com.cpi.model.Product;
 import ph.com.cpi.model.UserList;
@@ -29,6 +30,7 @@ public class UserListController extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		
 		try {
+
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
 			conn = DriverManager.getConnection(url);
@@ -64,5 +66,6 @@ public class UserListController extends HttpServlet {
 			System.out.println("Failed to connect to database!");
 			e.printStackTrace();
 		}
+		
 	}
 }
