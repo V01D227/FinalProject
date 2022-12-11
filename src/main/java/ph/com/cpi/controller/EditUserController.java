@@ -30,6 +30,11 @@ public class EditUserController extends HttpServlet {
 			String roleS = req.getParameter("role");
 			String useridS = req.getParameter("userid");
 			
+			System.out.println(username);
+			System.out.println(email);
+			System.out.println(roleS);
+			System.out.println(useridS);
+			
 			int role = Integer.parseInt(roleS);
 			int userid = Integer.parseInt(useridS);
 			

@@ -156,7 +156,7 @@ function AddUserAjax(username, password, email, role) {
 /************************************************************************* EDIT USER **********/
 function initEditUser(){
 	$("#editUserButton").click(function(){
-		var userid = $('#uid').val();
+		var userid = document.getElementById("uid").textContent;
 		var username = $('#uname').val();
 		var email = $('#emailEdit').val();
 		var role = $('#roleEdit').val();
