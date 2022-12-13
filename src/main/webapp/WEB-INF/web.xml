@@ -82,4 +82,24 @@
   	<url-pattern>/editusercontroller</url-pattern>
   </servlet-mapping>
 
+<!-- EditProductController -->
+  <servlet>
+    <servlet-name>editproductcontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.EditProductController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>editproductcontroller</servlet-name>
+  	<url-pattern>/editproductcontroller</url-pattern>
+  </servlet-mapping>
+
+<!-- AddProductController -->
+  <servlet>
+    <servlet-name>addproductcontroller</servlet-name>
+  	<servlet-class>ph.com.cpi.controller.AddProductController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>addproductcontroller</servlet-name>
+  	<url-pattern>/addproductcontroller</url-pattern>
+  </servlet-mapping>
+
 </web-app>

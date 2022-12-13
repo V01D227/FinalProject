@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class AddUserController extends HttpServlet {
+public class AddProductController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -25,31 +25,35 @@ public class AddUserController extends HttpServlet {
 
 		try {
 
-			String username = req.getParameter("username");
-			String email = req.getParameter("email");
-			String password = req.getParameter("password");
-			String role = req.getParameter("role");
+			String productName = req.getParameter("pname");
+			String productDesc = req.getParameter("pdesc");
+			String productPic = req.getParameter("ppic");
+			String productStatus = req.getParameter("pstatus");
+			String price = req.getParameter("pprice");
+			float pprice = Float.parseFloat(price);
 			
-			System.out.println(username);
-			System.out.println(email);
-			System.out.println(password);
-			System.out.println(role);
+			System.out.println(productName);
+			System.out.println(productDesc);
+			System.out.println(productPic);
+			System.out.println(productStatus);
+			System.out.println(price);
 			
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
 			conn = DriverManager.getConnection(url);
 	
-			String query = "INSERT INTO USERS_3 (role_id, username, password, email, user_status) VALUES (?, ?, ?, ?, 'Enabled')";
+			String query = "INSERT INTO PRODUCT_3 (product_name, product_description, product_picture, product_status, price) VALUES (?, ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(query);
 			
-			stmt.setString(1, role);
-			stmt.setString(2, username);
-			stmt.setString(3, password);
-			stmt.setString(4, email);
+			stmt.setString(1, productName);
+			stmt.setString(2, productDesc);
+			stmt.setString(3, productPic);
+			stmt.setString(4, productStatus);
+			stmt.setFloat(5, pprice);
 			
 			Integer res = stmt.executeUpdate();
 			if(res > 0) {
-				System.out.println("Data inserted!");
+				System.out.println("Product inserted!");
 			}
 			
 		conn.commit();

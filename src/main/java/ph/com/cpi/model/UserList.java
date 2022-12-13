@@ -8,7 +8,14 @@ public class UserList {
 	private String password;
 	private String email;
 	private String endpoint;
+	private String userStatus;
 	
+	public String getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
 	public String getEndpoint() {
 		return endpoint;
 	}

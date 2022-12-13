@@ -40,11 +40,19 @@ for(var i = 0; i < table.rows.length; i++){
 	table.rows[i].onclick = function()
 	{
 		rIndex = this.rowsIndex;
+		var picURL = this.cells[3].innerHTML;
+		var price = this.cells[5].innerHTML
+		var trimmedpicURL = picURL.replace('">', '');
+		var trimmedpicURL2 = trimmedpicURL.replace('<img src="', '');
 		
-		document.getElementById("uid").textContent = this.cells[0].innerHTML;
-		document.getElementById("uname").value = this.cells[1].innerHTML;
-		document.getElementById("emailEdit").value = this.cells[2].innerHTML;
-		document.getElementById("roleEdit").value = this.cells[3].innerHTML;
+		console.log(trimmedpicURL2);
+		
+		document.getElementById("pidEdit").textContent = this.cells[0].innerHTML;
+		document.getElementById("pnameEdit").value = this.cells[1].innerHTML;
+		document.getElementById("pdescEdit").value = this.cells[2].innerHTML;
+		document.getElementById("ppicEdit").value = trimmedpicURL2;
+		document.getElementById("pstatusEdit").value = this.cells[4].innerHTML;
+		document.getElementById("ppriceEdit").value = parseFloat(price);
 		
 	}
 }

@@ -20,8 +20,11 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/popupCSS.css" /> 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	
 	<script src="js/jquery-2.2.4.js"></script>
+	<script src="js/modalProductsPage.js"></script>
 	<script src="js/main.js"></script>
+	
 </head>
 <style>
 
@@ -69,8 +72,8 @@
         	width: 100px;
         	height: 100px;
         }
-        #listTitle {
-        margin: 0px 0px 0px 25px;
+        #addbutton {
+       		margin: 0px 0px 0px 25px;
         }
 </style>
 <body class="dbBody" id="dbBody">
@@ -127,8 +130,8 @@
 			
 			
 			<div class="dbUserListTable">
-			  <h1 id="listTitle">Products</h1>
-				 <table>
+			  <button class="dbLogoutBtn" id="addbutton" data-modal-target="#modalAddProduct">Add Product</button>
+				 <table id="table">
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
@@ -136,28 +139,17 @@
 							<th>Picture</th>
 							<th>Status</th>
 							<th>Price</th>
-							<th>Edit</th>
 						</tr>
 						<%
 							for(Product p : pl) {
 								%>
-								<tr class="dataRows">
+								<tr  data-modal-target="#modal" class="dataRows">
 									<td><%=p.getProductID() %></td>
 									<td><%=p.getProductName() %></td>
 									<td><%=p.getProductDesc() %></td>
 									<td><img src="<%=p.getProductPic() %>"></td>
 									<td><%=p.getProductStatus() %></td>
 									<td><%=p.getPrice() %> PHP</td>
-									<td>
-										<form>
-											<input type="text" value="<%=p.getProductName() %>">
-											<input type="text" value="<%=p.getProductDesc() %>">
-											<input type="text" value="<%=p.getProductPic() %>">
-											<input type="text" value="<%=p.getProductStatus() %>">
-											<input type="text" value="<%=p.getPrice() %>">
-											<button><input type="submit" value="Edit"></button><button><input type="submit" value="Delete"></button>
-										</form>
-									</td>
 								</tr>
 								<%
 							}
@@ -166,12 +158,76 @@
 			</div>
 		</div>	
 	</div>
+	
+<!-------------------------------- POP-UP WINDOW FOR ADD PRODUCTS ---------------------------->
+	<div class="modal" id="modalAddProduct">
+	    <div class="modal-header">
+	      <div class="title">Add User</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+	    <form>
+	    	Product Name:        <input     class="modal-input" id="pnameAdd"><br><br>
+	    	Product Description: <textarea  class="modal-textarea" id="pdescAdd"></textarea><br><br>
+	    	Product Picture:  	 <input     class="modal-input" id="ppicAdd" type="text" ><br><br>
+	    	Product Status:	  	 <select    class="modal-input" id="pstatusAdd">
+						    		  <option>Available</option>
+						    		  <option>Disabled</option>
+						    		  <option>Removed</option>
+	    			  			 </select>
+	    	<br>
+	    	<br>
+	    	Product Price: <input  class="modal-input" type="number" id="ppriceAdd"><br><br>
+	    	<input type="button" class="dbLogoutBtn" id="addProductButton" value="Add">
+	    </form>
+	    </div>
+	  </div>
+<!-------------------------------- POP-UP WINDOW FOR EDIT/DELETE PRODUCTS ---------------------------->
+	<div class="modal" id="modal">
+	    <div class="modal-header">
+	      <div class="title">Editing product</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+	    	Product ID:   		 <span id="pidEdit"></span><br><br>
+	    	Product Name: 		 <input     class="modal-input" id="pnameEdit"><br><br>
+	    	Product Description: <textarea  class="modal-textarea" id="pdescEdit"></textarea><br><br>
+	    	Product Picture:	 <input 	class="modal-input" id="ppicEdit"><br><br>
+	    	Product Status:		 <select    class="modal-input" id="pstatusEdit">
+	    				 			  <option>Available</option>
+						    		  <option>Disabled</option>
+						    		  <option>Removed</option>
+	    		   		  		 </select><br><br>
+	    	Product Price:  	 <input type="number" class="modal-input" id="ppriceEdit">
+	    	<br>
+	    	<br>
+	    	<button class="dbLogoutBtn" value="Update" id="editProductButton" >Update</button>
+	    </div>
+	  </div>
+<!-------------------------------- POP-UP WINDOW FOR EDIT PROFILE ---------------------------->
+	 <div class="modal" id="modalProfile">
+	    <div class="modal-header">
+	      <div class="title">Edit Profile</div>
+	      <button data-close-button class="close-button">&times;</button>
+	    </div>
+	    <div class="modal-body">
+			Username: 			 <input class="modal-input" type="text" value="${user.username}"><br><br>
+	    	Email:				 <input class="modal-input" type="text"><br><br>
+	    	New Password:		 <input class="modal-input" type="text"><br><br>
+	    	Old Password:		 <input class="modal-input" type="text" value="${user.password}"><br><br>
+	    	Retype New Password: <input class="modal-input" type="text"><br><br>
+	    	<button class="dbLogoutBtn" value="Update">Update</button>
+	    </div>
+	  </div>
+	 <div id="overlay"></div>
 </body>
 
 <script type="text/javascript">
 $( document ).ready(function() {
 	initAdminProductsPage();
 	initAdminUserlistPage();
+	initAddProduct();
+	initEditProduct();
 	initLogout();
 });
 </script>

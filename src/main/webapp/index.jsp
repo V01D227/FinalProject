@@ -8,9 +8,9 @@
 <head>
 <script src="js/jquery-2.2.4.js"></script>
 <script src="js/main.js"></script>
-<script src="js/pop.js"></script>
 <script src="js/sidebar.js"></script>
 <meta charset="ISO-8859-1">
+
 <title>Title</title>
 </head>
 <body>

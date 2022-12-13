@@ -25,7 +25,7 @@
 	
 	<script src="js/jquery-2.2.4.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/pop.js"></script>
+	<script src="js/modalUserlistPage.js"></script>
 </head>
 <style>
 
@@ -134,6 +134,7 @@
 							<th>Username</th>
 							<th>Email</th>
 							<th>Role</th>
+							<th>Status</th>
 						</tr>
 						<%
 						for(UserList u : ul) {
@@ -143,6 +144,7 @@
 							<td><%=u.getUsername() %></td>
 							<td><%=u.getEmail() %></td>
 							<td><%=u.getEndpoint() %></td>
+							<td><%=u.getUserStatus() %></td>
 						</tr>
 						<%
 						}
@@ -151,6 +153,7 @@
 			</div>
 		</div>	
 	</div>
+	
 <!-------------------------------- POP-UP WINDOW FOR ADD USERS ---------------------------->
 	<div class="modal" id="modalAddUser">
 	    <div class="modal-header">
@@ -160,7 +163,7 @@
 	    <div class="modal-body">
 	    <form>
 	    	Username: <input  class="modal-input" type="text" id="username"><br><br>
-	    	Email:    <input  class="modal-input" type="text" id="email"><br><br>
+	    	Email:    <input  class="modal-input" type="email" id="email"  pattern=".+@globex\.com"><br><br>
 	    	Password: <input  class="modal-input" type="text" id="password"><br><br>
 	    	Role:	  <select class="modal-input" id="role">
 			    		  <option>Administrator</option>
@@ -183,9 +186,19 @@
 	    <div class="modal-body">
 	    	ID: <span id="uid"></span><br><br>
 	    	Username: <input class="modal-input" type="text" id="uname"><br><br>
-	    	Email: <input class="modal-input" type="text" id="emailEdit"><br><br>
-	    	Role: <input class="modal-input" type="text" id="roleEdit"><br><br>
-	    	
+	    	Email: <input class="modal-input" type="email" id="emailEdit"><br><br>
+	    	Status:<select class="modal-input" id="statusEdit">
+	    				<option>Enabled</option>
+	    	       		<option>Disabled</option>
+	    		   </select>
+	    	Role:  <select class="modal-input" id="roleEdit">
+	    	       		<option>Administrator</option>
+	    	       		<option>Producer</option>
+	    	       		<option>Order Taker</option>
+	    	       		<option>Auditor</option>
+	    		   </select>
+	    	<br>
+	    	<br>
 	    	<button class="dbLogoutBtn" value="Update" id="editUserButton" >Update</button>
 	    	<button class="dbLogoutBtn" value="Delete">Delete</button>
 	    

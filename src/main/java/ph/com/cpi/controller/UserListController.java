@@ -35,7 +35,7 @@ public class UserListController extends HttpServlet {
 			String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
 			conn = DriverManager.getConnection(url);
 			
-			String query = "SELECT u.user_id, u.role_id, ur.endpoint, u.username, u.password, u.email FROM USERS_3 u, USER_ROLES_3 ur WHERE u.role_id = ur.role_id";
+			String query = "SELECT u.user_id, u.role_id, ur.endpoint, u.username, u.password, u.email, u.user_status FROM USERS_3 u, USER_ROLES_3 ur WHERE u.role_id = ur.role_id";
 			ArrayList<UserList> userlist = new ArrayList<UserList>();
 			
 			if (conn == null) 
@@ -54,9 +54,14 @@ public class UserListController extends HttpServlet {
 					ulObject.setUsername(rs.getString("username"));
 					ulObject.setPassword(rs.getString("password"));
 					ulObject.setEmail(rs.getString("email"));
+					ulObject.setUserStatus(rs.getString("user_status"));
 					userlist.add(ulObject);
 					
 				}
+				UserList userl = new UserList();
+				HttpSession session = req.getSession();
+				session.setAttribute("userlist", userl);
+				
 				req.setAttribute("userData", userlist);
 				dispatcher = req.getRequestDispatcher("adminpages/AdminUserList.jsp");
 				dispatcher.forward(req,  resp);

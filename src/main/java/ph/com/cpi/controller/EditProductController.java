@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class AddUserController extends HttpServlet {
+public class EditProductController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -21,35 +22,36 @@ public class AddUserController extends HttpServlet {
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		RequestDispatcher dispatcher = null;
-
+		
 		try {
 
-			String username = req.getParameter("username");
-			String email = req.getParameter("email");
-			String password = req.getParameter("password");
-			String role = req.getParameter("role");
+			String productID = req.getParameter("productID");
+			String productName = req.getParameter("productName");
+			String productDesc = req.getParameter("productDesc");
+			String productPic = req.getParameter("productPic");
+			String productStatus = req.getParameter("productStatus");
+			String productPrice = req.getParameter("productPrice");
 			
-			System.out.println(username);
-			System.out.println(email);
-			System.out.println(password);
-			System.out.println(role);
+			float price = Float.parseFloat(productPrice);
 			
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
 			conn = DriverManager.getConnection(url);
 	
-			String query = "INSERT INTO USERS_3 (role_id, username, password, email, user_status) VALUES (?, ?, ?, ?, 'Enabled')";
+			String query = "UPDATE PRODUCT_3 SET product_name = ?, product_description = ?, product_picture = ?, product_status = ?, price = ? WHERE product_id = ?";
 			stmt = conn.prepareStatement(query);
-			
-			stmt.setString(1, role);
-			stmt.setString(2, username);
-			stmt.setString(3, password);
-			stmt.setString(4, email);
+		
+			stmt.setString(1, productName);
+			stmt.setString(2, productDesc);
+			stmt.setString(3, productPic);
+			stmt.setString(4, productStatus);
+			stmt.setFloat(5, price);
+			stmt.setString(6, productID);
 			
 			Integer res = stmt.executeUpdate();
+			
 			if(res > 0) {
-				System.out.println("Data inserted!");
+				System.out.println("Product Updated!");
 			}
 			
 		conn.commit();
@@ -72,4 +74,5 @@ public class AddUserController extends HttpServlet {
 			}
 		}
 	}
+	
 }
