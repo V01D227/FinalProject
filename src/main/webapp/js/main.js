@@ -115,7 +115,7 @@ function initAddUser(){
 			alert('Please Enter Email!')
 		} else if (password == "" || password == null) {
 			alert('Please Enter Password!')
-		} else if ($('#emailEdit').val().match(regex)) { 
+		} else if ($('#email').val().match(regex)) { 
 			var answer = confirm('Add user ' + username + '?');
 			if (answer){
 				AddUserAjax(username, password, email, role)();
@@ -157,6 +157,7 @@ function AddUserAjax(username, password, email, role) {
 		success: alert('Added Successfully!')
 	});
 	closeModal(modal)
+	window.location.reload();
 }
 
 /************************************************************************* EDIT USER **********/
@@ -225,7 +226,9 @@ function EditUserAjax(userid, username, email, status, role) {
 	});
 	
 	alert('Updated User Successfully!');
+	window.location.reload();
 	closeModal(modal)
+	
 }
 
 /************************************************************************* FORGOT PASSWORD **********/
@@ -314,6 +317,7 @@ function EditProductAjax(pid, pname, pdesc, ppic, pstatus, pprice) {
 	});
 	
 	closeModal(modal)
+	window.location.reload();
 }
 
 /************************************************************************* ADD PRODUCT **********/
@@ -329,7 +333,10 @@ function initAddProduct(){
 			alert('Please Enter Product Name!')
 		} else if (pprice == "" || pprice == null) {
 			alert('Please Enter Product Price!')
-		}  else { 
+		} else if (pprice < 0) {
+			alert('Please Enter a valid Price!')
+		} 
+		else { 
 			var answer = confirm('Do you want to add product' + pname + '?');
 			if (answer){
 				AddProductAjax(pname, pdesc, ppic, pstatus, pprice)();
@@ -359,6 +366,7 @@ function AddProductAjax(pname, pdesc, ppic, pstatus, pprice){
 		},
 		success: alert('Added Successfully!')
 	});
+	window.location.reload();
 	closeModal(modal)
 }
 
