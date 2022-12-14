@@ -3,39 +3,34 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 	<%@page import="java.util.ArrayList" %>
-	<%@page import="ph.com.cpi.model.Product" %>
-	<%ArrayList<Product> pl = (ArrayList<Product>)request.getAttribute("productData"); %>
+	<%@page import="ph.com.cpi.model.UserList" %>
+	<%ArrayList<UserList> ul = (ArrayList<UserList>)request.getAttribute("userData"); %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<script type="text/javascript">
 		var contextPath = '${pageContext.request.contextPath}' + '/';
 	</script>
+	<title>User List</title>
+	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/dashboardCSS.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/popupCSS.css" /> 
+	<link rel="stylesheet" type="text/css" href="css/dashboardCSS.css" />
+	<link rel="stylesheet" type="text/css" href="css/popupCSS.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	
 	<script src="js/jquery-2.2.4.js"></script>
-	<script src="js/modalProductsPage.js"></script>
 	<script src="js/main.js"></script>
-	
+	<script src="js/modalUserlistPage.js"></script>
 </head>
 <style>
 
-		
     	h1 {
     		font-size: 25px;
-    	}
-
-    	.text {
-    		text-align: right;
-    		padding-right: 10px;
     	}
     	
         table {
@@ -50,13 +45,14 @@
   			border: solid;
   			border-width: 1px 0;
   		}
+  		
   		.dataRows:hover {
   			color: #D7B19D;
   			background: #402218;
   		}
   		
         td {
-      		width: 250px;
+      		width: 333px;
             padding: 10px;
             text-align: center;
             
@@ -72,136 +68,139 @@
         	width: 100px;
         	height: 100px;
         }
-        #addbutton {
-       		margin: 0px 0px 0px 25px;
-        }
+        
 </style>
+
 <body class="dbBody" id="dbBody">
 	<div class="dbContainer">
 		<div class="dbSidebar">
 			<ul>
-				<li>
+				<li class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-bread-slice"></i></span>
 					<span class="dbMenu">Sweet Satisfaction</span></a>
 				</li>
-				<li id="showUsers">
+				<li id="showUsers" class="dbSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-users"></i></span>
 					<span class="dbMenu">Users</span></a>
 				</li>
-				<li id="showProducts" class="dbSelectedSidebar">
+				<li id="showProducts" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-boxes"></i></span>
 					<span class="dbMenu">Products</span></a>
 				</li>
-				<li>
+				<li id="showOrders" class="dbNotSelectedSidebar">
 					<a href="#">
-					
 					<span class="dbSidebarIcon"><i class = "fa fa-th-list"></i></span>
 					<span class="dbMenu">Orders</span></a>
 				</li>
-				<li>
+				<li id="showProduction" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-cube"></i></span>
 					<span class="dbMenu">Production</span></a>
 				</li>
-				<li>
+				<li id="showReporting" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class="fa fa-clipboard-list"></i></span>
 					<span class="dbMenu">Reporting</span></a>
 				</li>
 			</ul>
  		</div>
-
+ 	<!-- main -->
 		<div class="dbMain">
 			<div class="dbTopbar">
 				<div class="dbToggle">
-		
+					<i class = "fa fa-ellipsis-h"></i>
 				</div>
-				<div>
+				<div class="dbGreeting">
 					<h1>Hello ${ep} ${user.username}</h1>
 				</div>
-				<div>
-					<button class="dbEditProfileBtn">Edit Profile</button>
-					<button class="dbLogoutBtn" id="logoutButton">Log out</button>
+				<div class="dbProfile">
+					<button class="dbProfileButton" data-modal-target="#modalProfile">Edit Profile</button>
+					<button class="dbProfileButton" id="logoutButton">Log out</button>
 				</div>
 			</div>
 			
-			
-			<div class="dbUserListTable">
-			  <button class="dbLogoutBtn" id="addbutton" data-modal-target="#modalAddProduct">Add Product</button>
+			<div class="dbInfos">
+			  <button class="dbAddButton" id="addbutton" data-modal-target="#modalAddUser">Add user</button>
 				 <table id="table">
 						<tr>
 							<th>ID</th>
-							<th>Name</th>
-							<th>Description</th>
-							<th>Picture</th>
+							<th>Username</th>
+							<th>Email</th>
+							<th>Role</th>
 							<th>Status</th>
-							<th>Price</th>
 						</tr>
 						<%
-							for(Product p : pl) {
-								%>
-								<tr  data-modal-target="#modal" class="dataRows">
-									<td><%=p.getProductID() %></td>
-									<td><%=p.getProductName() %></td>
-									<td><%=p.getProductDesc() %></td>
-									<td><img src="<%=p.getProductPic() %>"></td>
-									<td><%=p.getProductStatus() %></td>
-									<td><%=p.getPrice() %> PHP</td>
-								</tr>
-								<%
-							}
+						for(UserList u : ul) {
+						%>
+						<tr data-modal-target="#modal" class="dataRows">
+							<td><%=u.getUserID() %></td>
+							<td><%=u.getUsername() %></td>
+							<td><%=u.getEmail() %></td>
+							<td><%=u.getEndpoint() %></td>
+							<td><%=u.getUserStatus() %></td>
+						</tr>
+						<%
+						}
 						%>
 				</table> 
 			</div>
 		</div>	
 	</div>
 	
-<!-------------------------------- POP-UP WINDOW FOR ADD PRODUCTS ---------------------------->
-	<div class="modal" id="modalAddProduct">
+<!-------------------------------- POP-UP WINDOW FOR ADD USERS ---------------------------->
+	<div class="modal" id="modalAddUser">
 	    <div class="modal-header">
 	      <div class="title">Add User</div>
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
 	    <form>
-	    	Product Name:        <input     class="modal-input" id="pnameAdd"><br><br>
-	    	Product Description: <textarea  class="modal-textarea" id="pdescAdd"></textarea><br><br>
-	    	Product Picture:  	 <input     class="modal-input" id="ppicAdd" type="text" ><br><br>
-	    	Product Status:	  	 <select    class="modal-input" id="pstatusAdd">
-						    		  <option>Available</option>
-						    		  <option>Disabled</option>
-						    		  <option>Removed</option>
-	    			  			 </select>
+	    	<label>Username:</label><input  class="modal-input" type="text" id="username"><br><br>
+	    	<label>Email:</label><input  class="modal-input" type="email" id="email"  pattern=".+@globex\.com"><br><br>
+	    	<label>Password:</label><input  class="modal-input" type="text" id="password"><br><br>
+	    	<label>Role:</label><select class="modal-input" id="role">
+			    		  <option>Administrator</option>
+			    		  <option>Producer</option>
+			    		  <option>Order Taker</option>
+			    		  <option>Auditor</option>
+	    			  </select>
 	    	<br>
 	    	<br>
-	    	Product Price: <input  class="modal-input" type="number" id="ppriceAdd"><br><br>
-	    	<input type="button" class="dbLogoutBtn" id="addProductButton" value="Add">
+	    	<div class="buttonContainer">
+	    		<input type="button" class="dbButton" id="addUserButton" value="Add">
+	    	</div>
 	    </form>
 	    </div>
 	  </div>
-<!-------------------------------- POP-UP WINDOW FOR EDIT/DELETE PRODUCTS ---------------------------->
+<!-------------------------------- POP-UP WINDOW FOR EDIT/DELETE USERS ---------------------------->
 	<div class="modal" id="modal">
 	    <div class="modal-header">
-	      <div class="title">Editing product</div>
+	      <div class="title">Editing user</div>
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
-	    	Product ID:   		 <span id="pidEdit"></span><br><br>
-	    	Product Name: 		 <input     class="modal-input" id="pnameEdit"><br><br>
-	    	Product Description: <textarea  class="modal-textarea" id="pdescEdit"></textarea><br><br>
-	    	Product Picture:	 <input 	class="modal-input" id="ppicEdit"><br><br>
-	    	Product Status:		 <select    class="modal-input" id="pstatusEdit">
-	    				 			  <option>Available</option>
-						    		  <option>Disabled</option>
-						    		  <option>Removed</option>
-	    		   		  		 </select><br><br>
-	    	Product Price:  	 <input type="number" class="modal-input" id="ppriceEdit">
+	    	<label>ID:</label><span id="uid"></span><br><br>
+	    	<label>Username:</label><input class="modal-input" type="text" id="uname"><br><br>
+	    	<label>Email:</label><input class="modal-input" type="email" id="emailEdit"><br><br>
+	    	<label>Status:</label><select class="modal-input" id="statusEdit">
+	    				<option>Enabled</option>
+	    	       		<option>Disabled</option>
+	    		   </select><br><br>
+	    	<label>Role:</label><select class="modal-input" id="roleEdit">
+	    	       		<option>Administrator</option>
+	    	       		<option>Producer</option>
+	    	       		<option>Order Taker</option>
+	    	       		<option>Auditor</option>
+	    		   </select>
 	    	<br>
 	    	<br>
-	    	<button class="dbLogoutBtn" value="Update" id="editProductButton" >Update</button>
+	    	<div class="buttonContainer">
+	    		<button class="dbButton" value="Update" id="editUserButton" >Update</button>
+	    		<button class="dbButton" value="Delete">Delete</button>
+	    	</div>
 	    </div>
 	  </div>
 <!-------------------------------- POP-UP WINDOW FOR EDIT PROFILE ---------------------------->
@@ -211,12 +210,14 @@
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
-			Username: 			 <input class="modal-input" type="text" value="${user.username}"><br><br>
-	    	Email:				 <input class="modal-input" type="text"><br><br>
-	    	New Password:		 <input class="modal-input" type="text"><br><br>
-	    	Old Password:		 <input class="modal-input" type="text" value="${user.password}"><br><br>
-	    	Retype New Password: <input class="modal-input" type="text"><br><br>
-	    	<button class="dbLogoutBtn" value="Update">Update</button>
+			<label>Username:</label><input class="modal-input" type="text" value="${user.username}"><br><br>
+	    	<label>Email:</label><input class="modal-input" type="text"><br><br>
+	    	<label>New Password:</label><input class="modal-input" type="text"><br><br>
+	    	<label>Old Password:</label><input class="modal-input" type="text" value="${user.password}"><br><br>
+	    	<label>Retype New Password:</label><input class="modal-input" type="text"><br><br>
+	    	<div class="buttonContainer">
+	    		<button class="dbButton" value="Update">Update</button>
+	    	</div>
 	    </div>
 	  </div>
 	 <div id="overlay"></div>
@@ -226,8 +227,9 @@
 $( document ).ready(function() {
 	initAdminProductsPage();
 	initAdminUserlistPage();
-	initAddProduct();
-	initEditProduct();
+	initAuditorPage();
+	initAddUser();
+	initEditUser();
 	initLogout();
 });
 </script>

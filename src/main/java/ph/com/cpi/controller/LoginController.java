@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ph.com.cpi.model.AuditOrder;
 import ph.com.cpi.model.Authenticator;
 import ph.com.cpi.model.DBConnect;
 import ph.com.cpi.model.Product;
@@ -32,15 +33,20 @@ public class LoginController extends HttpServlet {
 	
 		Connection conn;
 		ResultSet rs;
+		ResultSet rs4;
 		PreparedStatement stmt = null;
 		PreparedStatement pstmt = null;
 		RequestDispatcher dispatcher = null;
 		
 		String ACTION = req.getParameter("action");
-		
 		System.out.println(ACTION);
 		
-		if (ACTION.equals("login")) {
+		if (ACTION.equals("ordernow")) {
+			
+			dispatcher = req.getRequestDispatcher("OrderTaking.jsp");
+			
+		}
+		else if (ACTION.equals("login")) {
 			
 			try {
 				
@@ -50,10 +56,6 @@ public class LoginController extends HttpServlet {
 				
 				String username = req.getParameter("username");
 				String password = req.getParameter("password");
-				
-				Boolean newUser = true;
-				Cookie[] cookies = req.getCookies();
-				String message ="";
 				
 				String query = "SELECT ur.endpoint, u.user_status FROM USER_ROLES_3 ur, USERS_3 u WHERE u.role_id = ur.role_id AND u.username = ? AND u.password = ?";
 				stmt = conn.prepareStatement(query);
@@ -67,8 +69,6 @@ public class LoginController extends HttpServlet {
 					
 					String userStatus = rs.getString("user_status");
 					String ePoint = rs.getString("endpoint");
-					System.out.print(userStatus);
-					System.out.print(ePoint);
 					
 					if ("Disabled".equals(userStatus)) {
 						dispatcher = req.getRequestDispatcher("pages/disabled.jsp");
@@ -76,7 +76,7 @@ public class LoginController extends HttpServlet {
 						
 						switch(ePoint) {
 						
-							case "Administrator":
+		/* ADMINISTRATOR */		case "Administrator":
 								
 								try {
 									String query2 = "SELECT u.user_id, u.role_id, ur.endpoint, u.username, u.password, u.email, u.user_status FROM USERS_3 u, USER_ROLES_3 ur WHERE u.role_id = ur.role_id";
@@ -99,10 +99,8 @@ public class LoginController extends HttpServlet {
 										userlist.add(ulObject);
 										
 									}
-									
 									dispatcher = req.getRequestDispatcher("adminpages/AdminUserList.jsp");
 									req.setAttribute("userData", userlist);
-									
 									
 								} catch (Exception e) {
 									System.out.println("Failed to connect to database!");
@@ -110,19 +108,63 @@ public class LoginController extends HttpServlet {
 								}
 							 break;
 								
-							case "Producer": dispatcher = req.getRequestDispatcher("pages/ProducerPage.jsp"); break;
+		/* PRODUCER */		case "Producer": dispatcher = req.getRequestDispatcher("pages/ProducerPage.jsp"); break;
 								
-							case "Order Taker": dispatcher = req.getRequestDispatcher("pages/OrderTakerPage.jsp"); break;
-												
-							case "Auditor": dispatcher = req.getRequestDispatcher("pages/AuditorPage.jsp"); break;
+		/* ORDER TAKER */	case "Order Taker": dispatcher = req.getRequestDispatcher("pages/OrderTakerPage.jsp"); break;
+					
+		/* AUDITOR */		case "Auditor": 
+								
+								try {
+								Class.forName("oracle.jdbc.driver.OracleDriver");
+								url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
+								conn = DriverManager.getConnection(url);
+								
+								String query4 = "SELECT * FROM AUDIT_ORDER_3";
+								ArrayList<AuditOrder> AuditOrderList = new ArrayList<AuditOrder>();
+								
+								if (conn == null) 
+									System.out.println("Connection Failed!"+conn);
+								else
+								{
+									System.out.println("Connection Successful!"+conn);
+									Statement cstmt4 = conn.createStatement();
+									rs4 = cstmt4.executeQuery(query4);
+									while(rs.next()) 
+									{
+										
+										AuditOrder auditOrderObject = new AuditOrder();
+										auditOrderObject.setItemChangeID(rs.getInt("itemchange_id"));
+										auditOrderObject.setUsername(rs.getString("username"));
+										auditOrderObject.setItemID(rs.getString("item_id"));
+										auditOrderObject.setFieldChanged(rs.getString("field_changed"));
+										auditOrderObject.setOldValue(rs.getString("old_vale"));
+										auditOrderObject.setNewValue(rs.getString("new_value"));
+										auditOrderObject.setChangeDate(rs.getString("change_date"));
+										AuditOrderList.add(auditOrderObject);
+									}
+									req.setAttribute("auditOrderData", AuditOrderList);
+									dispatcher = req.getRequestDispatcher("auditorpages/AuditorPage.jsp");
+									dispatcher.forward(req,  resp);
+								}
+								
+							} catch (Exception e) {
+								System.out.println("Failed to connect to database!");
+								e.printStackTrace();
+							}; 
+							break;
 												
 							default : break;
 						}
 					}
 					
+
+					Boolean newUser = true;
+					Cookie[] cookies = req.getCookies();
+					
 					User user = new User(username, password);
 					req.setAttribute("user", user);
 					req.setAttribute("ep", ePoint);
+					
 					HttpSession session = req.getSession();
 					session.setAttribute("user", user);
 					
@@ -138,13 +180,8 @@ public class LoginController extends HttpServlet {
 						Cookie returnUserCookie = new Cookie("repeatUser","yes");
 						returnUserCookie.setMaxAge(1000);
 						resp.addCookie(returnUserCookie);
-						message = "Welcome new user " + user.getUsername() + "!";
-					} else {
-						message = "Welcome back user " + user.getUsername() + "!";
 					}
-					
-					req.setAttribute("message", message);
-					
+	
 				} else {
 					dispatcher = req.getRequestDispatcher("pages/error.jsp");
 				}
@@ -175,8 +212,6 @@ public class LoginController extends HttpServlet {
 				
 				User user = new User(username, password);
 				req.setAttribute("user", user);
-				HttpSession session = req.getSession();
-				session.setAttribute("user", user);
 					
 					if (rs.next()) {
 						

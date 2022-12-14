@@ -15,7 +15,7 @@
 	<script type="text/javascript">
 		var contextPath = '${pageContext.request.contextPath}' + '/';
 	</script>
-	<title>Title</title>
+	<title>User List</title>
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/dashboardCSS.css" />
@@ -69,17 +69,13 @@
         	height: 100px;
         }
         
-        #addbutton {
-       		margin: 0px 0px 0px 25px;
-        }
-        
 </style>
 
 <body class="dbBody" id="dbBody">
 	<div class="dbContainer">
 		<div class="dbSidebar">
 			<ul>
-				<li>
+				<li class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-bread-slice"></i></span>
 					<span class="dbMenu">Sweet Satisfaction</span></a>
@@ -89,22 +85,22 @@
 					<span class="dbSidebarIcon"><i class = "fa fa-users"></i></span>
 					<span class="dbMenu">Users</span></a>
 				</li>
-				<li id="showProducts">
+				<li id="showProducts" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-boxes"></i></span>
 					<span class="dbMenu">Products</span></a>
 				</li>
-				<li>
+				<li id="showOrders" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-th-list"></i></span>
 					<span class="dbMenu">Orders</span></a>
 				</li>
-				<li>
+				<li id="showProduction" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class = "fa fa-cube"></i></span>
 					<span class="dbMenu">Production</span></a>
 				</li>
-				<li>
+				<li id="showReporting" class="dbNotSelectedSidebar">
 					<a href="#">
 					<span class="dbSidebarIcon"><i class="fa fa-clipboard-list"></i></span>
 					<span class="dbMenu">Reporting</span></a>
@@ -115,19 +111,19 @@
 		<div class="dbMain">
 			<div class="dbTopbar">
 				<div class="dbToggle">
-		
+					<i class = "fa fa-ellipsis-h"></i>
 				</div>
-				<div>
+				<div class="dbGreeting">
 					<h1>Hello ${ep} ${user.username}</h1>
 				</div>
-				<div>
-					<button data-modal-target="#modalProfile" class="dbLogoutBtn">Edit Profile</button>
-					<button class="dbLogoutBtn" id="logoutButton">Log out</button>
+				<div class="dbProfile">
+					<button class="dbProfileButton" data-modal-target="#modalProfile">Edit Profile</button>
+					<button class="dbProfileButton" id="logoutButton">Log out</button>
 				</div>
 			</div>
 			
-			<div class="dbUserListTable">
-			  <button class="dbLogoutBtn" id="addbutton" data-modal-target="#modalAddUser">Add user</button>
+			<div class="dbInfos">
+			  <button class="dbAddButton" id="addbutton" data-modal-target="#modalAddUser">Add user</button>
 				 <table id="table">
 						<tr>
 							<th>ID</th>
@@ -162,10 +158,10 @@
 	    </div>
 	    <div class="modal-body">
 	    <form>
-	    	Username: <input  class="modal-input" type="text" id="username"><br><br>
-	    	Email:    <input  class="modal-input" type="email" id="email"  pattern=".+@globex\.com"><br><br>
-	    	Password: <input  class="modal-input" type="text" id="password"><br><br>
-	    	Role:	  <select class="modal-input" id="role">
+	    	<label>Username:</label><input  class="modal-input" type="text" id="username"><br><br>
+	    	<label>Email:</label><input  class="modal-input" type="email" id="email"  pattern=".+@globex\.com"><br><br>
+	    	<label>Password:</label><input  class="modal-input" type="text" id="password"><br><br>
+	    	<label>Role:</label><select class="modal-input" id="role">
 			    		  <option>Administrator</option>
 			    		  <option>Producer</option>
 			    		  <option>Order Taker</option>
@@ -173,7 +169,9 @@
 	    			  </select>
 	    	<br>
 	    	<br>
-	    	<input type="button" class="dbLogoutBtn" id="addUserButton" value="Add">
+	    	<div class="buttonContainer">
+	    		<input type="button" class="dbButton" id="addUserButton" value="Add">
+	    	</div>
 	    </form>
 	    </div>
 	  </div>
@@ -184,14 +182,14 @@
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
-	    	ID: <span id="uid"></span><br><br>
-	    	Username: <input class="modal-input" type="text" id="uname"><br><br>
-	    	Email: <input class="modal-input" type="email" id="emailEdit"><br><br>
-	    	Status:<select class="modal-input" id="statusEdit">
+	    	<label>ID:</label><span id="uid"></span><br><br>
+	    	<label>Username:</label><input class="modal-input" type="text" id="uname"><br><br>
+	    	<label>Email:</label><input class="modal-input" type="email" id="emailEdit"><br><br>
+	    	<label>Status:</label><select class="modal-input" id="statusEdit">
 	    				<option>Enabled</option>
 	    	       		<option>Disabled</option>
-	    		   </select>
-	    	Role:  <select class="modal-input" id="roleEdit">
+	    		   </select><br><br>
+	    	<label>Role:</label><select class="modal-input" id="roleEdit">
 	    	       		<option>Administrator</option>
 	    	       		<option>Producer</option>
 	    	       		<option>Order Taker</option>
@@ -199,9 +197,10 @@
 	    		   </select>
 	    	<br>
 	    	<br>
-	    	<button class="dbLogoutBtn" value="Update" id="editUserButton" >Update</button>
-	    	<button class="dbLogoutBtn" value="Delete">Delete</button>
-	    
+	    	<div class="buttonContainer">
+	    		<button class="dbButton" value="Update" id="editUserButton" >Update</button>
+	    		<button class="dbButton" value="Delete">Delete</button>
+	    	</div>
 	    </div>
 	  </div>
 <!-------------------------------- POP-UP WINDOW FOR EDIT PROFILE ---------------------------->
@@ -211,12 +210,14 @@
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
-			Username: 			 <input class="modal-input" type="text" value="${user.username}"><br><br>
-	    	Email:				 <input class="modal-input" type="text"><br><br>
-	    	New Password:		 <input class="modal-input" type="text"><br><br>
-	    	Old Password:		 <input class="modal-input" type="text" value="${user.password}"><br><br>
-	    	Retype New Password: <input class="modal-input" type="text"><br><br>
-	    	<button class="dbLogoutBtn" value="Update">Update</button>
+			<label>Username:</label><input class="modal-input" type="text" value="${user.username}"><br><br>
+	    	<label>Email:</label><input class="modal-input" type="text"><br><br>
+	    	<label>New Password:</label><input class="modal-input" type="text"><br><br>
+	    	<label>Old Password:</label><input class="modal-input" type="text" value="${user.password}"><br><br>
+	    	<label>Retype New Password:</label><input class="modal-input" type="text"><br><br>
+	    	<div class="buttonContainer">
+	    		<button class="dbButton" value="Update">Update</button>
+	    	</div>
 	    </div>
 	  </div>
 	 <div id="overlay"></div>
@@ -226,6 +227,7 @@
 $( document ).ready(function() {
 	initAdminProductsPage();
 	initAdminUserlistPage();
+	initAuditorPage();
 	initAddUser();
 	initEditUser();
 	initLogout();

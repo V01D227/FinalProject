@@ -10,6 +10,7 @@ public class UserList {
 	private String endpoint;
 	private String userStatus;
 	
+	
 	public String getUserStatus() {
 		return userStatus;
 	}

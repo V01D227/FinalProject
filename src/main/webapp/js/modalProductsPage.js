@@ -42,7 +42,7 @@ for(var i = 0; i < table.rows.length; i++){
 		rIndex = this.rowsIndex;
 		var picURL = this.cells[3].innerHTML;
 		var price = this.cells[5].innerHTML
-		var trimmedpicURL = picURL.replace('">', '');
+		var trimmedpicURL = picURL.replace('" alt="Not Available">', '');
 		var trimmedpicURL2 = trimmedpicURL.replace('<img src="', '');
 		
 		console.log(trimmedpicURL2);

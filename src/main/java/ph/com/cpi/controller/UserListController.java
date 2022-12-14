@@ -30,7 +30,7 @@ public class UserListController extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		
 		try {
-
+			
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String url = "jdbc:oracle:thin:TRNG/cpi12345@training-db.cosujmachgm3.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
 			conn = DriverManager.getConnection(url);
@@ -58,10 +58,6 @@ public class UserListController extends HttpServlet {
 					userlist.add(ulObject);
 					
 				}
-				UserList userl = new UserList();
-				HttpSession session = req.getSession();
-				session.setAttribute("userlist", userl);
-				
 				req.setAttribute("userData", userlist);
 				dispatcher = req.getRequestDispatcher("adminpages/AdminUserList.jsp");
 				dispatcher.forward(req,  resp);

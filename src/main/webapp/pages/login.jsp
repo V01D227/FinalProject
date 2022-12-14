@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 	
 	<script src="js/main.js"></script>
-	<script src="js/modalUserlistPage.js"></script>
+	<script src="js/modalLogin.js"></script>
 	
 </head>
 <style>
@@ -44,7 +44,7 @@
 		<div class="loginContainer">
 			<p class="loginTitle">Sweet Satisfaction</p>
 			<form class="loginForm">
-				<button class="loginOrder">ORDER NOW</button>
+				<button class="loginOrder" id="orderNowButton">ORDER NOW</button>
 				
 				<div class="loginSeparator"></div>
 				
@@ -69,7 +69,7 @@
 <!------------------------------------------ FORGOT PASSWORD MODAL ---------------------------------------->
 <div class="modal" id="modalForgotPW">
 	    <div class="modal-header">
-	      <div class="title">Add User</div>
+	      <div class="title">Reset Password</div>
 	      <button data-close-button class="close-button">&times;</button>
 	    </div>
 	    <div class="modal-body">
@@ -85,6 +85,7 @@
 $( document ).ready(function() {
 	initLoginPage();
 	initForgotPassword();
+	initOrderNow();
 });
 </script>
 </body>

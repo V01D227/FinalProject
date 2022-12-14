@@ -5,6 +5,7 @@ function checkSession(){
 		method: "POST",
 		success: function(result){
 			$("#mainDiv").html(result);
+		
 		}
 	});
 }
@@ -359,4 +360,25 @@ function AddProductAjax(pname, pdesc, ppic, pstatus, pprice){
 		success: alert('Added Successfully!')
 	});
 	closeModal(modal)
+}
+
+
+/************************************************************************* ORDER NOW **********/
+function initOrderNow(){
+	$("#orderNowButton").click(function(){
+		OrderNowAjax();
+	})
+}
+
+function OrderNowAjax(){
+	$.ajax({
+		url: contextPath + "logincontroller",
+		method: "POST",
+		data : {
+			action: "ordernow"
+		},
+		success: function(result){
+			$("#mainDiv").html(result);
+		}
+	});
 }

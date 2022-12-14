@@ -26,8 +26,9 @@
 						 
 	<!-- <input type="submit" id="infoBtn" value="Submit">
 	<br> -->
-	<input type="button" id="logoutBtn" value="Logout">
-
+	<body>
+	${ep}
+	</body>
 
 <script src= "js/prototype.js">
 
