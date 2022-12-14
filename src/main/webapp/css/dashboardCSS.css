@@ -8,18 +8,6 @@
 	font-family: 'Nunito', sans-serif;
 }
 
-label {
-	width: 200px;
-	display: inline-block;
-}
-.modal-input, .modal-textarea {
-	padding-left: 5px;
-	padding-right: 5px;
-	width: 250px;
-}
-.buttonContainer {
-	text-align: center;
-}
 /* DASHBOARD */
 .dbBody {
 	min-height: 100vh;
@@ -41,15 +29,6 @@ label {
 .dbSidebar.active {
 	width: 60px;
 }
-.dbSelectedSidebar a {
-	background: #D7B19D;
-	color: #402218;
-	border-top-left-radius: 30px;
-	border-bottom-left-radius: 30px;
-}
-.dbNotSelectedSidebar a {
-	color: #D7B19D;
-}
 .dbSidebar ul {
 	position: absolute;
 	top: 0;
@@ -66,6 +45,9 @@ label {
 .dbSidebar ul li:hover {
 	background: #D7B19D;
 }
+.dbSelectedSidebar ul li{
+	background: white;
+}
 .dbSidebar ul li:nth-child(1) {
 	margin-bottom: 40px;
 	pointer-events: none;
@@ -76,8 +58,10 @@ label {
 	width: 100%;
 	display: flex;
 	text-decoration: none;
+	color: #D7B19D;
 }
-.dbSidebar ul li:hover a {
+.dbSidebar ul li:hover a,
+.dbSidebar ul li.hovered a {
 	color: #402218;
 }
 .dbSidebar ul li a .dbSidebarIcon {
@@ -85,11 +69,14 @@ label {
 	display: block;
 	min-width: 60px;
 	height: 60px;
-	line-height: 75px;
+	line-height: 67px;
 	text-align: center;
 }
 .dbSidebar ul li a .dbSidebarIcon i {
-	font-size: 1.75em;
+	font-size: 1.3em;
+}
+#bars {
+	font-size: 0.75em;
 }
 .dbSidebar ul li a .dbMenu {
 	 position: relative;
@@ -100,6 +87,33 @@ label {
 	 text-align: start;
 	 white-space: nowrap;
 }
+.dbSidebar ul li:hover a::before,
+.dbSidebar ul li.hovered a::before {
+	content:'';
+	position: absolute;
+	right:0;
+	top: -50px;
+	width: 50px;
+	height: 50px;
+	background:transparent;
+	border-radius: 50%;
+	box-shadow: 35px 35px 0 10px #D7B19D;
+	pointer-events: none;
+}
+.dbSidebar ul li:hover a::after,
+.dbSidebar ul li.hovered a::after {
+	content:'';
+	position: absolute;
+	right:0;
+	bottom: -50px;
+	width: 50px;
+	height: 50px;
+	background:transparent;
+	border-radius: 50%;
+	box-shadow: 35px -35px 0 10px #D7B19D;
+	pointer-events: none;
+}
+
 /* DASHBOARD MAIN */
 .dbMain {
 	position: absolute;
@@ -114,14 +128,12 @@ label {
 	left: 60px;
 }
 .dbTopbar {
-	background: #865439;
-	color: #D7B19D;
-	display: grid;
-	grid-template-columns: 0.1fr 1fr 1fr;
-	grid-template-areas: "dbToggleArea dbGreeting dbProfile";
-}
-.dbToggleArea {
-	grid-area: dbToggleArea;
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 10px;
 }
 .dbToggle {
 	position: relative;
@@ -131,83 +143,22 @@ label {
 	justify-content: center;
 	align-items: center;
 	font-size: 2.5em;
-	cursor: pointer;	
+	cursor: pointer;
 }
-.dbGreeting {
-	grid-area: dbGreeting;
-	display: flex;
-    justify-content: left;
-    align-items: center;
-}
-.dbProfile {
-	grid-area: dbProfile;
-	text-align: right;
-}
-[class$="Button"] {
-	display: inline-block;
-	padding: 10px 10px;
+.dbEditProfileBtn, .dbLogoutBtn {
+	position: relative;
+	padding: 10px 5px;
+	margin: 15px auto;
 	width: 150px;
-	text-align: center;
-	border: 1px solid #402218;
-	border-radius: 10px;
-	transition: all 0.2s;
-	background-color: #402218;
+	outline: none;
+	border-radius: 30px;
+	font-weight: bold;
 	color: #D7B19D;
-}
-[class$="Button"]:hover {
-	background-color:#6F3B2A;
-	color:#D7B19D;
-}
-.dbProfileButton {
-	margin-top: 10px;
-}
-.dbAddButton {
-	margin: 25px 0px 0px 25px;
-}
-.dbInfos {
-	grid-area: dbUserListTable;
+	cursor: pointer;
+	background-color: #402218;
+	letter-spacing: 2px;
 }
 
-@media only screen and (max-width: 780px) {
-	.dbTopbar {
-		grid-template-columns: 1fr;
-		grid-template-areas:
-			"dbToggleArea"
-			"dbGreeting"
-			"dbProfile";
-	}
-	.dbGreeting {
-    	justify-content: center;
-	}
-	.dbTopbar .dbProfile {
-		top: 100%;
-		left: 0;
-		right: 0;
-	}
-	.dbTopbar .dbProfile ul li {
-		width: 100%;
-	}
-	.dbTopbar .dbProfile ul li ul{
-		position: relative;
-		width: 100%;
-	}
-	.dbProfileButton {		
-  		margin-top: 0px;
-	}
-	.dbAddUserButton {
-  		margin: 0px 0px 0px 0px;
-	}
-	.dbProfileButton, .dbAddUserButton {
-		display: block;
-  		width: 100%;
-  		border-radius: 0px;
-  		border: 1px solid #D7B19D;
-	}
-	
-	.modal-input, .modal-textarea {
-		width: 100%;
-	}
-	.dbModalButton {
-		width: 100%;
-	}
+.dbUserListTable {
+	position: relative;
 }
